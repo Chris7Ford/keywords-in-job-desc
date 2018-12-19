@@ -3,6 +3,9 @@
 #to import this into python console, type "python3 -i scrape.py"
 
 from save_post import save_post
+from db import get_max_search_id
+from db import get_job_desc
+from db import get_location
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 from selenium.common.exceptions import NoSuchElementException
@@ -10,10 +13,6 @@ from selenium.webdriver.support.ui import WebDriverWait
 import time
 driver = webdriver.Chrome()
 driver.get("https://www.indeed.com")
-
-wantedJobDesc = "Web Developer"
-wantedLoc = "Grand Rapids, MI"
-keywords = ["Javascript", "React", "PHP", "CSS"]
 
 class post_class:
 	title = False
@@ -40,17 +39,22 @@ def assign_by_css(css_path, elementdesc):
 	else:
 		print("Check the selector at", elementdesc)
 def clear_field(element):
-	while jobLocInput.get_attribute("value") != '':
+	while element.get_attribute("value") != '':
 		element.send_keys(Keys.ARROW_RIGHT)
 		element.send_keys(Keys.BACKSPACE)
 
-def get_post_info(post):
+def get_post_info(post, search_id):
 	post_obj = post_class()
 	title = post.find_element_by_css_selector(".jobtitle")
 	post_obj.post_id = post.get_attribute("id")
 	title.click()
 	time.sleep(1)
-	post_obj.post_text = driver.find_element_by_css_selector("#vjs-desc").text
+	post_obj.search_id = search_id
+	try:
+		post_obj.post_text = driver.find_element_by_css_selector("#vjs-desc").text
+	except:
+		time.sleep(3)
+		post_obj.post_text = driver.find_element_by_css_selector("#vjs-desc").text
 	try:
 		post_obj.ez_apply = post.find_element_by_css_selector(".iaP").text
 	except:
@@ -76,22 +80,21 @@ def get_post_info(post):
 	except:
 		post_obj.location = False
 	post_obj.url = driver.current_url
-	for word in keywords:
-		print(word, ": ", post_obj.post_text.count(word))
-	save_post(post_obj)
+	save_post(post_obj, search_id)
 
-jobDescInput = assign_by_css(".icl-WhatWhere-input--what input", "Main job description search box")
-jobLocInput = assign_by_css(".icl-WhatWhere-input--where input", "Main location search box")
-jobDescInput.send_keys(wantedJobDesc)
-clear_field(jobLocInput)	
-jobLocInput.send_keys(wantedLoc)
-submitbtn = assign_by_css("#whatWhere button", "Main menu submit button")
-submitbtn.click()
+def navigate_to_results(wantedJobDesc, wantedLoc):
+	jobDescInput = assign_by_css(".icl-WhatWhere-input--what input", "Main job description search box")
+	jobLocInput = assign_by_css(".icl-WhatWhere-input--where input", "Main location search box")
+	jobDescInput.send_keys(wantedJobDesc)
+	clear_field(jobLocInput)	
+	jobLocInput.send_keys(wantedLoc)
+	submitbtn = assign_by_css("#whatWhere button", "Main menu submit button")
+	submitbtn.click()
 #We are now off the home page
-postings = driver.find_elements_by_css_selector(".jobsearch-SerpJobCard")
-def get_posts():
+def get_posts(search_id):
+	postings = driver.find_elements_by_css_selector(".jobsearch-SerpJobCard")
 	for post in postings:
-		get_post_info(post)
+		get_post_info(post, search_id)
 def go_to_next_page():
 	page_links = driver.find_elements_by_css_selector(".np")
 	for link in page_links:
@@ -101,16 +104,19 @@ def go_to_next_page():
 			try:
 				driver.find_element_by_css_selector(".icl-CloseButton").click()
 			except:
-				continue
-get_posts()
-go_to_next_page()
-go_to_next_page()
-go_to_next_page()
-go_to_next_page()
-go_to_next_page()
-go_to_next_page()
-go_to_next_page()
-go_to_next_page()
-go_to_next_page()
-go_to_next_page()
-go_to_next_page()
+				1 == 1
+			return 1
+	return 0
+search_id = 1
+max_search_id = get_max_search_id()
+while search_id <= max_search_id:
+	driver.get("https://www.indeed.com")
+	action = 1
+	wantedJobDesc = get_job_desc(search_id)
+	wantedLoc = get_location(search_id)
+	navigate_to_results(wantedJobDesc, wantedLoc)
+	while action == 1:
+		action = 0
+		get_posts(search_id)
+		action = go_to_next_page()
+	search_id = search_id + 1
