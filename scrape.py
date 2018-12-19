@@ -17,6 +17,7 @@ keywords = ["Javascript", "React", "PHP", "CSS"]
 
 class post_class:
 	title = False
+	company = False
 	post_id = False
 	post_text = False
 	ez_apply = False
@@ -49,13 +50,15 @@ def get_post_info(post):
 	post_obj.post_id = post.get_attribute("id")
 	title.click()
 	time.sleep(1)
-	print(title.get_attribute("innerText"))
-	print("The post id is:", post_obj.post_id)
 	post_obj.post_text = driver.find_element_by_css_selector("#vjs-desc").text
 	try:
 		post_obj.ez_apply = post.find_element_by_css_selector(".iaP").text
 	except:
 		post_obj.ez_apply = False
+	try:
+		post_obj.company = post.find_element_by_css_selector(".company").text 
+	except:
+		post_obj.company = False
 	try:
 		post_obj.salary = post.find_element_by_css_selector(".salary").text
 	except:
@@ -73,13 +76,6 @@ def get_post_info(post):
 	except:
 		post_obj.location = False
 	post_obj.url = driver.current_url
-	print("Title =", post_obj.title)
-	print("Location =", post_obj.location)
-	print("EZ APPLY =", post_obj.ez_apply)
-	print("Salary =", post_obj.salary)
-	print("Date posted =", post_obj.date_posted)
-	print("Post url =", post_obj.url)
-	print(post_obj.post_text)
 	for word in keywords:
 		print(word, ": ", post_obj.post_text.count(word))
 	save_post(post_obj)
@@ -97,5 +93,24 @@ def get_posts():
 	for post in postings:
 		get_post_info(post)
 def go_to_next_page():
-	1==1
-get_posts()	
+	page_links = driver.find_elements_by_css_selector(".np")
+	for link in page_links:
+		if link.text.count("Next") > 0:
+			link.click()
+			time.sleep(1)
+			try:
+				driver.find_element_by_css_selector(".icl-CloseButton").click()
+			except:
+				continue
+get_posts()
+go_to_next_page()
+go_to_next_page()
+go_to_next_page()
+go_to_next_page()
+go_to_next_page()
+go_to_next_page()
+go_to_next_page()
+go_to_next_page()
+go_to_next_page()
+go_to_next_page()
+go_to_next_page()
