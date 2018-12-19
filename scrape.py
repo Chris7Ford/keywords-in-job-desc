@@ -2,6 +2,7 @@
 
 #to import this into python console, type "python3 -i scrape.py"
 
+from save_post import save_post
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 from selenium.common.exceptions import NoSuchElementException
@@ -13,6 +14,16 @@ driver.get("https://www.indeed.com")
 wantedJobDesc = "Web Developer"
 wantedLoc = "Grand Rapids, MI"
 keywords = ["Javascript", "React", "PHP", "CSS"]
+
+class post_class:
+	title = False
+	post_id = False
+	post_text = False
+	ez_apply = False
+	salary = False
+	date_posted_text = False
+	location =  False
+	url = False
 
 def check_exists_by_css(css_path):
 	try:
@@ -33,44 +44,45 @@ def clear_field(element):
 		element.send_keys(Keys.BACKSPACE)
 
 def get_post_info(post):
+	post_obj = post_class()
 	title = post.find_element_by_css_selector(".jobtitle")
-	post_id = post.get_attribute("id")
+	post_obj.post_id = post.get_attribute("id")
 	title.click()
 	time.sleep(1)
 	print(title.get_attribute("innerText"))
-	print("The post id is:", post_id)
-	post_text = driver.find_element_by_css_selector("#vjs-desc").text
+	print("The post id is:", post_obj.post_id)
+	post_obj.post_text = driver.find_element_by_css_selector("#vjs-desc").text
 	try:
-		ez_apply = post.find_element_by_css_selector(".iaP").text
+		post_obj.ez_apply = post.find_element_by_css_selector(".iaP").text
 	except:
-		ez_apply = False
+		post_obj.ez_apply = False
 	try:
-		salary = post.find_element_by_css_selector(".salary").text
+		post_obj.salary = post.find_element_by_css_selector(".salary").text
 	except:
-		salary = False
+		post_obj.salary = False
 	try:
-		date_posted = post.find_element_by_css_selector(".date").text
+		post_obj.date_posted = post.find_element_by_css_selector(".date").text
 	except:
-		date_posted = False
+		post_obj.date_posted = False
 	try:
-		title = post.find_element_by_css_selector(".jobtitle").text
+		post_obj.title = post.find_element_by_css_selector(".jobtitle").text
 	except:
-		title = False
+		post_obj.title = False
 	try:
-		location = post.find_element_by_css_selector(".location").text
+		post_obj.location = post.find_element_by_css_selector(".location").text
 	except:
-		location = False
-	url = driver.current_url
-	print("Title =", title)
-	print("Location =", location)
-	print("EZ APPLY =", ez_apply)
-	print("Salary =", salary)
-	print("Date posted =", date_posted)
-	print("Post url =", url)
-	print(post_text)
+		post_obj.location = False
+	post_obj.url = driver.current_url
+	print("Title =", post_obj.title)
+	print("Location =", post_obj.location)
+	print("EZ APPLY =", post_obj.ez_apply)
+	print("Salary =", post_obj.salary)
+	print("Date posted =", post_obj.date_posted)
+	print("Post url =", post_obj.url)
+	print(post_obj.post_text)
 	for word in keywords:
-		print(word, ": ", post_text.count(word))
-
+		print(word, ": ", post_obj.post_text.count(word))
+	save_post(post_obj)
 
 jobDescInput = assign_by_css(".icl-WhatWhere-input--what input", "Main job description search box")
 jobLocInput = assign_by_css(".icl-WhatWhere-input--where input", "Main location search box")
