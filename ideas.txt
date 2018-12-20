@@ -1,0 +1,5 @@
+filter vy 6 figure salaries - will have to use regexp
+filter by EZ apply
+sort by last seen (hopefully still active)
+search for keyword in body text - find jobs with 'word'
+	-or: comparing in the same job market which keywords appear more

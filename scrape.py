@@ -53,6 +53,7 @@ def get_post_info(post, search_id):
 	try:
 		post_obj.post_text = driver.find_element_by_css_selector("#vjs-desc").text
 	except:
+		title.click()
 		time.sleep(3)
 		post_obj.post_text = driver.find_element_by_css_selector("#vjs-desc").text
 	try:
