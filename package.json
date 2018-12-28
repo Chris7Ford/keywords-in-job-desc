@@ -1,0 +1,23 @@
+{
+  "name": "scrape_indeed",
+  "version": "1.0.0",
+  "description": "Backend for job app",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Chris7Ford/keywords-in-job-desc.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Chris7Ford/keywords-in-job-desc/issues"
+  },
+  "homepage": "https://github.com/Chris7Ford/keywords-in-job-desc#readme",
+  "dependencies": {
+    "express": "^4.16.4",
+    "mysql": "^2.16.0"
+  }
+}
