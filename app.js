@@ -9,6 +9,8 @@ const db = mysql.createConnection({
 	database: 'db_mka'
 });
 
+const app = express();
+
 db.connect((error) => {
 	if (error)
 		console.log(error);
@@ -16,7 +18,18 @@ db.connect((error) => {
 		console.log("Connection established");
 });
 
-const app = express();
+app.get('/', (req, res) => {
+	db.query("SELECT * FROM posts LIMIT 1;", (error, results) => {
+		if (error)
+			return res.send(error);
+		else {
+			return res.json({
+				data:results
+			})
+		}
+	});
+});
+
 app.listen('8889', () => {
 	console.log("Server started on port 8889");
 });
