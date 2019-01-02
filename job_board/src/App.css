@@ -1,8 +1,47 @@
 .page-footer {
-   background-color: indigo;
+   background-color: #00838f;
     color:white;
     position:fixed;
     left:0px;
     bottom:0px;
     width:100%;
+}
+
+.card-button {
+    position: absolute;
+    bottom: 3em;
+    margin-left: auto; 
+    margin-right: auto; 
+}
+
+.card-body{
+    height: 22.5em;
+}
+
+.outer {
+    width: 100%;
+    text-align: center;
+}
+  
+.inner {
+    display: inline-block;
+}
+
+.orange {
+    color: #e56828;
+}
+
+.main {
+    margin: 5em;
+}
+
+.footer-copyright {
+    background-color: #026973;
+    height: 30%;
+}
+
+.footer-text {
+    text-align: center;
+    font-size: 2.5em;
+    line-height: 1.5em;
 }

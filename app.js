@@ -18,13 +18,22 @@ db.connect((error) => {
 		console.log("Connection established");
 });
 
+
 app.get('/', (req, res) => {
-	db.query("SELECT * FROM posts LIMIT 1;", (error, results) => {
+	const rows_per_page = 30;
+	let page = req.query.page;
+	let p = page * rows_per_page
+	let query = `SELECT title, company, location, ez_apply, salary_text, CONCAT(SUBSTRING(body, 1, 100), '...') AS preview FROM posts WHERE 1=1 `;
+	if (req.query.search_id)
+		query += `AND search_id = ${req.query.search_id} `;
+	console.log(p);
+	query += `LIMIT ${p}, ${rows_per_page};`;
+	db.query(query, (error, results) => {
 		if (error)
 			return res.send(error);
 		else {
 			return res.json({
-				data:results
+				data:results,
 			})
 		}
 	});

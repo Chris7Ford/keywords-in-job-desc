@@ -8,10 +8,10 @@ import Homepage from "./components/Homepage";
 class App extends Component {
 
   constructor(props) {
-    super(props);
+    super();
 
     this.state = {
-    view: 'home'
+      SearchId: null
     }
   }
 
@@ -21,17 +21,10 @@ class App extends Component {
 	  <BrowserRouter>
 	  <div>
     <Header />
-	  <p onClick={() => this.setState({view: "Changed"})}>
-      Change
-    </p>
-    <p>
-	    {this.state.view}
-	  </p>
-
-      <Route path="/" component={Homepage} exact/>
+      <Route path="/" render={(props) => <Homepage SearchId={this.state.SearchId} />} exact/>
       </div>
     </BrowserRouter>
-    <Footer />
+    {/*<Footer />*/}
     </div>
     );
   }
