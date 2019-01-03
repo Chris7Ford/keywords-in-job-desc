@@ -5,6 +5,7 @@ const Jobcard = (props) => {
       props.Post.salary_text = "";
     if (props.Post.ez_apply == 0)
       props.Post.ez_apply = "";
+
     return (
       <div className="card col-md-4 col-sm-6">
   

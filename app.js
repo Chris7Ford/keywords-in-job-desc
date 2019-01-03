@@ -26,7 +26,6 @@ app.get('/', (req, res) => {
 	let query = `SELECT title, company, location, ez_apply, salary_text, CONCAT(SUBSTRING(body, 1, 100), '...') AS preview FROM posts WHERE 1=1 `;
 	if (req.query.search_id)
 		query += `AND search_id = ${req.query.search_id} `;
-	console.log(p);
 	query += `LIMIT ${p}, ${rows_per_page};`;
 	db.query(query, (error, results) => {
 		if (error)

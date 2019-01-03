@@ -16,9 +16,11 @@
 
 .card-body{
     height: 22.5em;
+    margin: 50px 0 0 0;
 }
 
 .outer {
+    margin: 15px;
     width: 100%;
     text-align: center;
 }
