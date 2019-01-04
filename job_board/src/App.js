@@ -12,8 +12,16 @@ class App extends Component {
     super();
 
     this.state = {
-      SearchId: null
+      SearchId: null,
+      postId: null
     }
+    this.setPost = this.setPost.bind(this);
+  }
+
+  setPost = (id) => {
+		this.setState({
+			postId: id
+		})
   }
 
   render() {
@@ -22,8 +30,9 @@ class App extends Component {
 	  <BrowserRouter>
 	  <div>
     <Header />
-      <Route path="/" render={(props) => <Homepage SearchId={this.state.SearchId} />} exact/>
-      <Route path="/post" render={(props) => <Post SearchId={this.state.SearchId} />} exact/>
+    <p>{this.state.postId}</p>
+      <Route path="/" render={(props) => <Homepage SearchId={this.state.SearchId} setPost={this.setPost}/>} exact/>
+      <Route path="/post" render={(props) => <Post SearchId={this.state.SearchId} postId={this.state.postId} />} exact/>
       </div>
     </BrowserRouter>
     {/*<Footer />*/}

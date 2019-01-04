@@ -37,6 +37,19 @@ app.get('/', (req, res) => {
 	});
 });
 
+app.get('/getPost', (req, res) => {
+	let query = `SELECT p.* FROM posts AS p WHERE p.id = ${req.query.id}`;
+	db.query(query, (error, results) => {
+		if (error)
+			return res.send(error);
+		else {
+			return res.json({
+				data:results,
+			})
+		}
+	});
+});
+
 app.listen('8889', () => {
 	console.log("Server started on port 8889");
 });

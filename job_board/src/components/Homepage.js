@@ -34,7 +34,6 @@ class Homepage extends React.Component {
 				posts: data
 			})
 		});
-		console.log(this.url_call);
 	}
 
 	nextPage = () => {
@@ -74,7 +73,7 @@ class Homepage extends React.Component {
 			<a id = "top"></a>
 			  <div class="row">
 			  	{Object.values(this.state.posts.data).map(post => (
-			  		<Jobcard Post={post}/>
+			  		<Jobcard Post={post} setPost={this.props.setPost}/>
 			  	))}
 			  </div>
 			  	<Pagenav page={this.state.page} nextPage={this.nextPage} prevPage={this.prevPage} />
