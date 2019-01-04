@@ -2,7 +2,6 @@ const express = require('express');
 const mysql = require('mysql');
 
 const db = mysql.createConnection({
-//	host: '127.0.0.1',
 	host: 'localhost',
 	user: 'root',
 	password: 'root',
@@ -23,7 +22,7 @@ app.get('/', (req, res) => {
 	const rows_per_page = 30;
 	let page = req.query.page;
 	let p = page * rows_per_page
-	let query = `SELECT title, company, location, ez_apply, salary_text, CONCAT(SUBSTRING(body, 1, 100), '...') AS preview FROM posts WHERE 1=1 `;
+	let query = `SELECT id, title, company, location, ez_apply, salary_text, CONCAT(SUBSTRING(body, 1, 60), '...') AS preview FROM posts WHERE 1=1 `;
 	if (req.query.search_id)
 		query += `AND search_id = ${req.query.search_id} `;
 	query += `LIMIT ${p}, ${rows_per_page};`;

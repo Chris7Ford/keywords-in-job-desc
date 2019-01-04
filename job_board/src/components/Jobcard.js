@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 const Jobcard = (props) => {
     if (props.Post.salary_text == 0)
@@ -20,7 +21,7 @@ const Jobcard = (props) => {
         
         <div className="card-button">
         <p className="orange">{props.Post.ez_apply}</p>
-        <button type="button" className="btn btn-primary">Read   more</button>
+        <Link to="post"><button type="button" className="btn btn-primary">Read   more</button></Link>
         </div>
   
       </div>
