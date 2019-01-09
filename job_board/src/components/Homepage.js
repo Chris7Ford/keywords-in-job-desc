@@ -37,14 +37,12 @@ class Homepage extends React.Component {
 	}
 
 	nextPage = () => {
-		console.log(`State at the beginning of the function is ${this.state.page}`);
 		this.setState({
 			page: this.state.page + 1
 		})
 		setTimeout(function(){
 			this.url_call = `http://localhost:8889/?page=${this.state.page}`;
 			this.get_posts();
-			console.log(`The state from the homepage component is ${this.state.page}`)
 		}.bind(this), 300);
 
 	}

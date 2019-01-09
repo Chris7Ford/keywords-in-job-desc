@@ -30,7 +30,6 @@ class App extends Component {
 	  <BrowserRouter>
 	  <div>
     <Header />
-    <p>{this.state.postId}</p>
       <Route path="/" render={(props) => <Homepage SearchId={this.state.SearchId} setPost={this.setPost}/>} exact/>
       <Route path="/post" render={(props) => <Post SearchId={this.state.SearchId} postId={this.state.postId} />} exact/>
       </div>

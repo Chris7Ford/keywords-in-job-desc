@@ -5,7 +5,7 @@ class Post extends React.Component {
         super();
         this.state = {
             loaded: false,
-            product: []
+            product: null
         }
     }
 
@@ -15,24 +15,38 @@ class Post extends React.Component {
 		.then(data => {
 			this.setState({
 				loaded: true,
-				product: JSON.stringify(data.data)
+                product: data.data
 			})
         });
 	}
 
     render() {
+        if (!this.state.loaded) {
+            return (
+                <p>Loading..</p>
+            )
+          }
         return (
             <div className="jumbotron">
-            <p>{Object.values(this.state.product)}</p>
-                <h1 className="display-4">Hello, world!</h1>
-                <p className="lead">This is a simple hero unit, a simple jumbotron-style component for calling extra attention to featured content or information.</p>
-                <hr className="my-4" />
-                <p>It uses utility classNamees for typography and spacing to space content out within the larger container.</p>
-                <p className="lead">
-                  <a className="btn btn-primary btn-lg" href="#" role="button">Learn more</a>
-                </p>
+                {this.state.product.map(info => (
+                    <div>
+                    <h1 className="display-4"><a href={info.url} target="BLANK">{info.title}</a></h1>
+                    <h3>{info.company} - {info.location}</h3>
+                    <p className="lead orange">{info.ez_apply}</p>
+                    <p className="lead">{info.salary_text}</p>
+                    <hr className="my-4" />
+                    <p>{info.body}</p>
+                    <br />
+                    <br />
+                    <br />
+                    <p>Search term:<br />{info.job_desc} - {info.location}</p>
+                    <p class="lead">
+    <                   a class="btn btn-primary btn-lg" href="#" role="button">See more from this search term</a>
+                    </p>
+                    </div>
+                    )
+                )}
             </div>
-        )
-    }
+        )};
 }
 export default Post;

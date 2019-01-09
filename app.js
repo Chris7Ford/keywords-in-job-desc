@@ -38,7 +38,7 @@ app.get('/', (req, res) => {
 });
 
 app.get('/getPost', (req, res) => {
-	let query = `SELECT p.* FROM posts AS p WHERE p.id = ${req.query.id}`;
+	let query = `SELECT IF(p.ez_apply="0", "", p.ez_apply) AS ez_apply, p.id, p.post_id, p.title, p.company, p.location, IF(p.salary_text="0", "", p.salary_text) AS salary_text, IF(p.date_posted_text="0", "", p.date_posted_text) AS date_posted_text, p.date_scraped, p.url, p.body, p.search_id, sc.job_desc, sc.location FROM posts AS p LEFT JOIN search_criteria AS sc ON p.search_id = sc.id WHERE p.id = ${req.query.id}`;
 	db.query(query, (error, results) => {
 		if (error)
 			return res.send(error);
