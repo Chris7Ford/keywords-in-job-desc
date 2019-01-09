@@ -4,23 +4,37 @@ class Post extends React.Component {
     constructor(props) {
         super();
         this.state = {
+            id: window.location.href.split('/')[window.location.href.split('/').length-1],
             loaded: false,
             product: null
         }
     }
 
+    
+
     componentDidMount() {
-        fetch(`http://localhost:8889/getPost?id=${this.props.postId}`)
-		.then(res => res.json())
-		.then(data => {
-			this.setState({
-				loaded: true,
-                product: data.data
-			})
-        });
+        if (/^\d+$/.test(this.state.id)) {
+            fetch(`http://localhost:8889/getPost?id=${this.state.id}`)
+		    .then(res => res.json())
+		    .then(data => {
+		    	this.setState({
+		    		loaded: true,
+                    product: data.data
+		    	})
+            });
+        }
 	}
 
     render() {
+
+        if (!/^\d+$/.test(this.state.id)) {
+            return (
+                <p>
+                    Invalid id
+                </p>
+            )
+        }
+
         if (!this.state.loaded) {
             return (
                 <p>Loading..</p>
@@ -41,7 +55,7 @@ class Post extends React.Component {
                     <br />
                     <p>Search term:<br />{info.job_desc} - {info.location}</p>
                     <p class="lead">
-    <                   a class="btn btn-primary btn-lg" href="#" role="button">See more from this search term</a>
+                        <a class="btn btn-primary btn-lg" href="#" role="button">See more from this search term</a>
                     </p>
                     </div>
                     )

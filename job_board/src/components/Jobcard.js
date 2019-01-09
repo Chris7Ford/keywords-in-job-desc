@@ -21,7 +21,7 @@ const Jobcard = (props) => {
         
         <div className="card-button">
         <p className="orange">{props.Post.ez_apply}</p>
-        <Link to="post" onClick={() => {props.setPost(props.Post.id)}}><button type="button" className="btn btn-primary">Read   more</button></Link>
+        <Link to={`/${props.Post.id}`} onClick={() => {props.setPost(props.Post.id)}}><button type="button" className="btn btn-primary">Read   more</button></Link>
         </div>
   
       </div>
