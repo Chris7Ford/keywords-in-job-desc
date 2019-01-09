@@ -10,10 +10,9 @@ class Homepage extends React.Component {
 		this.state = {
 		  posts: [],
 		  page: 1,
-		  loaded: false
+		  loaded: false,
+		  next: false
 		}
-//		const { page, posts } = state;
-
 		this.url_call = `http://localhost:8889/?page=${this.state.page}`;
 		if (this.props.SearchId)
 			  this.url_call += `&SearchId=${this.props.SearchId}`;
@@ -23,6 +22,7 @@ class Homepage extends React.Component {
 
 	componentDidMount() {
 		this.get_posts();
+		this.check_next_page();
 	}
 
 	get_posts = () => {
@@ -31,8 +31,23 @@ class Homepage extends React.Component {
 		.then(data => {
 			this.setState({
 				loaded: true,
-				posts: data
+				posts: data.data
 			})
+		});
+	}
+
+	check_next_page= () => {
+		this.next_url = `http://localhost:8889/?page=${this.state.page + 1}`;
+		if (this.props.SearchId)
+			  this.next_url += `&SearchId=${this.props.SearchId}`
+		fetch(this.next_url)
+		.then(res => res.json())
+		.then(data => {
+			if (data.data.length > 0) {
+				this.setState({
+					next: true
+				})
+			}
 		});
 	}
 
@@ -54,7 +69,6 @@ class Homepage extends React.Component {
 		setTimeout(function(){
 			this.url_call = `http://localhost:8889/?page=${this.state.page}`;
 			this.get_posts();
-			console.log(`The state from the homepage component is ${this.state.page}`)
 		}.bind(this), 300);
 	}
 
@@ -70,11 +84,11 @@ class Homepage extends React.Component {
 			<div class="container main">
 			<a id = "top"></a>
 			  <div class="row">
-			  	{Object.values(this.state.posts.data).map(post => (
+			  	{this.state.posts.map(post => (
 			  		<Jobcard Post={post} setPost={this.props.setPost}/>
 			  	))}
 			  </div>
-			  	<Pagenav page={this.state.page} nextPage={this.nextPage} prevPage={this.prevPage} />
+			  	<Pagenav page={this.state.page} nextPage={this.nextPage} prevPage={this.prevPage} checkNext={this.state.next} />
 			</div>
 		)
 	  }
