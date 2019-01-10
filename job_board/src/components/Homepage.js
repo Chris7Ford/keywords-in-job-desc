@@ -36,7 +36,7 @@ class Homepage extends React.Component {
 		});
 	}
 
-	check_next_page= () => {
+	check_next_page = () => {
 		this.next_url = `http://localhost:8889/?page=${this.state.page + 1}`;
 		if (this.props.SearchId)
 			  this.next_url += `&SearchId=${this.props.SearchId}`
@@ -47,8 +47,12 @@ class Homepage extends React.Component {
 				this.setState({
 					next: true
 				})
+			} else {
+				this.setState({
+					next: false
+				})
 			}
-		});
+		});;
 	}
 
 	nextPage = () => {
@@ -56,6 +60,7 @@ class Homepage extends React.Component {
 			page: this.state.page + 1
 		})
 		setTimeout(function(){
+			this.check_next_page();
 			this.url_call = `http://localhost:8889/?page=${this.state.page}`;
 			this.get_posts();
 		}.bind(this), 300);
@@ -67,6 +72,7 @@ class Homepage extends React.Component {
 			page: this.state.page - 1
 		});
 		setTimeout(function(){
+			this.check_next_page();
 			this.url_call = `http://localhost:8889/?page=${this.state.page}`;
 			this.get_posts();
 		}.bind(this), 300);

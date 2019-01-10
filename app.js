@@ -19,12 +19,12 @@ db.connect((error) => {
 
 
 app.get('/', (req, res) => {
-	const rows_per_page = 2;
+	const rows_per_page = 30;
 	let page = req.query.page - 1;
 	let p = page * rows_per_page
 	let query = `SELECT id, title, company, location, ez_apply, salary_text, CONCAT(SUBSTRING(body, 1, 60), '...') AS preview FROM posts WHERE 1=1 `;
-	//if (req.query.search_id)
-		query += `AND search_id = 3 `//${req.query.search_id}
+	if (req.query.search_id)
+		query += `AND search_id = ${req.query.search_id}`;
 	query += `LIMIT ${p}, ${rows_per_page};`;
 	db.query(query, (error, results) => {
 		if (error)
