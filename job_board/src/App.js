@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import './App.css';
 import { BrowserRouter, Route } from 'react-router-dom';
 import Header from "./components/Header";
-import Post from "./components/Post"
+import Post from "./components/Post";
+import Searches from "./components/Searches";
 import Footer from "./components/Footer";
 import Homepage from "./components/Homepage";
 
@@ -37,8 +38,9 @@ class App extends Component {
 	  <BrowserRouter>
 	  <div>
     <Header />
-      <Route path="/" render={(props) => <Homepage SearchId={this.state.SearchId} setPost={this.setPost}/>} exact/>
-      <Route path="/:post_id" render={(props) => <Post SearchId={this.state.SearchId} postId={this.state.postId} />}/>
+      <Route path="/home" render={(props) => <Homepage SearchId={this.state.SearchId} setPost={this.setPost}/>} exact/>
+      <Route path="/" render={(props) => <Searches setSearch_id={this.setSearch_id}/>} exact/>
+      <Route path="/post/:post_id" render={(props) => <Post SearchId={this.state.SearchId} postId={this.state.postId} exact />}/>
       </div>
     </BrowserRouter>
     {/*<Footer />*/}

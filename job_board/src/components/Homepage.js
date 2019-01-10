@@ -26,6 +26,7 @@ class Homepage extends React.Component {
 	}
 
 	get_posts = () => {
+		console.log(this.url_call);
 		fetch(this.url_call)
 		.then(res => res.json())
 		.then(data => {

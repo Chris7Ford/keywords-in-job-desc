@@ -16,16 +16,16 @@ class Header extends React.Component {
                 <Link className="nav-link" to="/">Home</Link>
               </li>
               <li className="nav-item">
-                <Link className="nav-link" to="searches">Search Terms</Link>
+                <Link className="nav-link" to="/searches">Search Terms</Link>
               </li>
               <li className="nav-item">
-                <Link className="nav-link" to="modules">Filters</Link>
+                <Link className="nav-link" to="/modules">Filters</Link>
               </li>
       	      <li className="nav-item">
-                <Link className="nav-link" to="keywords">Keyword Breakdown</Link>
+                <Link className="nav-link" to="/keywords">Keyword Breakdown</Link>
               </li>
               <li className="nav-item">
-                <a className="nav-link" to="suggest">Suggest a Search Term</a>
+                <a className="nav-link" to="/suggest">Suggest a Search Term</a>
               </li>
             </ul>
           </div>

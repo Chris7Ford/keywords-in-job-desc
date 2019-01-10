@@ -50,6 +50,19 @@ app.get('/getPost', (req, res) => {
 	});
 });
 
+app.get('/getSearches', (req, res) => {
+	let query = `SELECT sc.* FROM search_criteria AS sc WHERE sc.active = 1;`;
+	db.query(query, (error, results) => {
+		if (error)
+			return res.send(error);
+		else {
+			return res.json({
+				data:results,
+			})
+		}
+	});
+});
+
 app.listen('8889', () => {
 	console.log("Server started on port 8889");
 });
