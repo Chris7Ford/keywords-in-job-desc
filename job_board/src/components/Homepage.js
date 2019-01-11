@@ -14,15 +14,26 @@ class Homepage extends React.Component {
 		  next: false
 		}
 		this.url_call = `http://localhost:8889/?page=${this.state.page}`;
-		if (this.props.SearchId)
-			  this.url_call += `&SearchId=${this.props.SearchId}`;
+		this.appendURL();
 		this.nextPage = this.nextPage.bind(this);
 		this.prevPage = this.prevPage.bind(this);
+		this.appendURL = this.appendURL.bind(this);
 	}	
 
 	componentDidMount() {
 		this.get_posts();
 		this.check_next_page();
+	}
+
+	appendURL = () => {
+		if (this.props.filter.SearchId)
+			this.url_call += `&SearchId=${this.props.filter.SearchId}`;
+  		if (this.props.filter.sfig)
+	  		this.url_call += `&sfig=true`;
+  		if (this.props.filter.ez_apply)
+			  this.url_call += `&ez=true`;
+		/*if (this.props.filter.keyword)
+			this.url_call += `&SearchId=${this.props.filter.SearchId}`;*/
 	}
 
 	get_posts = () => {

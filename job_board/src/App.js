@@ -13,7 +13,12 @@ class App extends Component {
     super();
 
     this.state = {
-      SearchId: null,
+      filter: {
+        SearchId: null,
+        sfig: null,
+        ez_apply: null,
+        keyword: null
+      },
       postId: null
     }
     this.setPost = this.setPost.bind(this);
@@ -38,7 +43,7 @@ class App extends Component {
 	  <BrowserRouter>
 	  <div>
     <Header />
-      <Route path="/home" render={(props) => <Homepage SearchId={this.state.SearchId} setPost={this.setPost}/>} exact/>
+      <Route path="/jobs" render={(props) => <Homepage filter={this.state.filter} setPost={this.setPost}/>} exact/>
       <Route path="/" render={(props) => <Searches setSearch_id={this.setSearch_id}/>} exact/>
       <Route path="/post/:post_id" render={(props) => <Post SearchId={this.state.SearchId} postId={this.state.postId} exact />}/>
       </div>

@@ -33,8 +33,9 @@ class Searches extends React.Component {
                 <p className="lead col-md-12 text-center">Please select a search term to filter restults:</p>
                 <p className="lead col-md-12 text-center">
                   {this.state.terms.map(term => (
-                  <div><Link to='/home' onClick={() => {this.props.setSearch_id(term.id)}} className="btn btn-lg btn-secondary">{term.job_desc} - {term.location}</Link><br /><br /></div>
+                  <div><Link to='/jobs' onClick={() => {this.props.setSearch_id(term.id)}} className="btn btn-lg btn-primary">{term.job_desc} - {term.location}</Link><br /><br /></div>
                   ))}
+                  <div><Link to='/jobs' onClick={() => {this.props.setSearch_id(null)}} className="btn btn-lg btn-primary">See All</Link><br /><br /></div>
                 </p>
             </main>
         );

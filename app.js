@@ -22,9 +22,21 @@ app.get('/', (req, res) => {
 	const rows_per_page = 30;
 	let page = req.query.page - 1;
 	let p = page * rows_per_page
-	let query = `SELECT id, title, company, location, ez_apply, salary_text, CONCAT(SUBSTRING(body, 1, 60), '...') AS preview FROM posts WHERE 1=1 `;
+	let query = 
+	`SELECT p.* FROM posts AS p
+	INNER JOIN (
+		SELECT post_id, MAX(date_scraped) AS date_scraped
+		FROM posts
+		GROUP BY post_id
+	) AS tp
+	ON p.post_id = tp.post_id AND tp.date_scraped = p.date_scraped 
+	WHERE 1=1 `;
 	if (req.query.SearchId)
-		query += `AND search_id = ${req.query.SearchId} `;
+		query += `AND p.search_id = ${req.query.SearchId} `;
+	if (req.query.sfig == true)
+		query += `AND p.salary_text REGEXP '[0-9]{3},*[0-9]{3}' `;
+	if (req.query.ez == true)
+		query += `AND p.ez_apply != '0' `;
 	query += `LIMIT ${p}, ${rows_per_page};`;
 	db.query(query, (error, results) => {
 		if (error)

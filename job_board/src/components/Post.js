@@ -54,9 +54,6 @@ class Post extends React.Component {
                     <br />
                     <br />
                     <p>Search term:<br />{info.job_desc} - {info.location}</p>
-                    <p class="lead">
-                        <a class="btn btn-primary btn-lg" href="#" role="button">See more from this search term</a>
-                    </p>
                     </div>
                     )
                 )}

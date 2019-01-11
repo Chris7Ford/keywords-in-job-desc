@@ -1,4 +1,5 @@
 import React from "react";
+import '../App.css';
 import { Link } from "react-router-dom";
 
 class Header extends React.Component {
@@ -16,10 +17,33 @@ class Header extends React.Component {
                 <Link className="nav-link" to="/">Home</Link>
               </li>
               <li className="nav-item">
-                <Link className="nav-link" to="/searches">Search Terms</Link>
+                <Link className="nav-link" to="/jobs">Jobs</Link>
               </li>
               <li className="nav-item">
-                <Link className="nav-link" to="/modules">Filters</Link>
+              <div class="dropdown">
+                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  Filters
+                </button>
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" value="" id="defaultCheck1" />
+                  <label class="form-check-label" for="defaultCheck1">
+                    6 Figure Jobs
+                  </label>
+                  <br />
+                  <input class="form-check-input" type="checkbox" value="" id="defaultCheck1" />
+                  <label class="form-check-label" for="defaultCheck1">
+                    Easily Apply
+                  </label>
+                  <br />
+                  <input class="form-check-input" type="checkbox" value="" id="defaultCheck1" />
+                  <label class="form-check-label" for="defaultCheck1">
+                    Jobs containing the word:
+                    <input type="text" class="form-control" placeholder="Job Keyword"></input>
+                  </label>
+                  </div>
+                </div>
+            </div>
               </li>
       	      <li className="nav-item">
                 <Link className="nav-link" to="/keywords">Keyword Breakdown</Link>
