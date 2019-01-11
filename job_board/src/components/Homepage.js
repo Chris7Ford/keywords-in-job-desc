@@ -14,7 +14,15 @@ class Homepage extends React.Component {
 		  next: false
 		}
 		this.url_call = `http://localhost:8889/?page=${this.state.page}`;
-		this.appendURL();
+		if (this.props.filter.SearchId)
+			this.url_call += `&SearchId=${this.props.filter.SearchId}`;
+  		if (this.props.filter.sfig)
+	  		this.url_call += `&sfig=true`;
+  		if (this.props.filter.ez_apply)
+			  this.url_call += `&ez=true`;
+		if (this.props.keyword != "" && this.props.filter.keywordEnabled) {
+			this.url_call += `&keyword=${this.props.keyword}`;
+		}
 		this.nextPage = this.nextPage.bind(this);
 		this.prevPage = this.prevPage.bind(this);
 		this.appendURL = this.appendURL.bind(this);
@@ -37,7 +45,6 @@ class Homepage extends React.Component {
 	}
 
 	get_posts = () => {
-		console.log(this.url_call);
 		fetch(this.url_call)
 		.then(res => res.json())
 		.then(data => {
@@ -50,8 +57,12 @@ class Homepage extends React.Component {
 
 	check_next_page = () => {
 		this.next_url = `http://localhost:8889/?page=${this.state.page + 1}`;
-		if (this.props.SearchId)
-			  this.next_url += `&SearchId=${this.props.SearchId}`
+		if (this.props.filter.SearchId)
+			this.next_url += `&SearchId=${this.props.filter.SearchId}`;
+  		if (this.props.filter.sfig)
+	  		this.next_url += `&sfig=true`;
+  		if (this.props.filter.ez_apply)
+			  this.next_url += `&ez=true`;
 		fetch(this.next_url)
 		.then(res => res.json())
 		.then(data => {
@@ -74,6 +85,7 @@ class Homepage extends React.Component {
 		setTimeout(function(){
 			this.check_next_page();
 			this.url_call = `http://localhost:8889/?page=${this.state.page}`;
+			this.appendURL();
 			this.get_posts();
 		}.bind(this), 300);
 
@@ -86,6 +98,7 @@ class Homepage extends React.Component {
 		setTimeout(function(){
 			this.check_next_page();
 			this.url_call = `http://localhost:8889/?page=${this.state.page}`;
+			this.appendURL();
 			this.get_posts();
 		}.bind(this), 300);
 	}

@@ -33,10 +33,12 @@ app.get('/', (req, res) => {
 	WHERE 1=1 `;
 	if (req.query.SearchId)
 		query += `AND p.search_id = ${req.query.SearchId} `;
-	if (req.query.sfig == true)
+	if (req.query.sfig == 'true')
 		query += `AND p.salary_text REGEXP '[0-9]{3},*[0-9]{3}' `;
-	if (req.query.ez == true)
+	if (req.query.ez == 'true')
 		query += `AND p.ez_apply != '0' `;
+	if (req.query.keyword)
+		query += `AND (p.body LIKE "%${req.query.keyword}%" OR p.title LIKE "%${req.query.keyword}%") `;
 	query += `LIMIT ${p}, ${rows_per_page};`;
 	db.query(query, (error, results) => {
 		if (error)
