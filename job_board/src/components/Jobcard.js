@@ -2,11 +2,6 @@ import React from "react";
 import { Link } from "react-router-dom";
 
 const Jobcard = (props) => {
-    if (props.Post.salary_text == 0)
-      props.Post.salary_text = "";
-    if (props.Post.ez_apply == 0)
-      props.Post.ez_apply = "";
-
     return (
       <div className="card col-md-4 col-sm-6">
   

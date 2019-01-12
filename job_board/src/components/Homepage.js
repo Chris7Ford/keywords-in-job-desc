@@ -20,7 +20,7 @@ class Homepage extends React.Component {
 	  		this.url_call += `&sfig=true`;
   		if (this.props.filter.ez_apply)
 			  this.url_call += `&ez=true`;
-		if (this.props.keyword != "" && this.props.filter.keywordEnabled) {
+		if (this.props.keyword !== "" && this.props.filter.keywordEnabled) {
 			this.url_call += `&keyword=${this.props.keyword}`;
 		}
 		this.nextPage = this.nextPage.bind(this);
@@ -75,7 +75,7 @@ class Homepage extends React.Component {
 					next: false
 				})
 			}
-		});;
+		});
 	}
 
 	nextPage = () => {
@@ -112,11 +112,11 @@ class Homepage extends React.Component {
 
 	  else {
 		return (
-			<div class="container main">
-			<a id = "top"></a>
-			  <div class="row">
+			<div className="container main">
+			<a href="#" id="top" />
+			  <div className="row">
 			  	{this.state.posts.map(post => (
-			  		<Jobcard Post={post} setPost={this.props.setPost}/>
+			  		<Jobcard key={post.id} Post={post} setPost={this.props.setPost}/>
 			  	))}
 			  </div>
 			  	<Pagenav page={this.state.page} nextPage={this.nextPage} prevPage={this.prevPage} checkNext={this.state.next} />

@@ -7,7 +7,7 @@ class Header extends React.Component {
     return (
       <div>
 	<nav className="navbar navbar-expand-lg navbar-light bg-light">
-  	  <a className="navbar-brand">Job Board</a>
+  	  <div className="navbar-brand">Job Board</div>
   	  <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
     	    <span className="navbar-toggler-icon"></span>
   	  </button>
@@ -23,7 +23,7 @@ class Header extends React.Component {
                 <Link className="nav-link" to="/keywords">Keyword Breakdown</Link>
               </li>
               <li className="nav-item">
-                <a className="nav-link" to="/suggest">Suggest a Search Term</a>
+                <Link className="nav-link" to="/suggest">Suggest a Search Term</Link>
               </li>
             </ul>
           </div>

@@ -54,7 +54,7 @@ def get_post_info(post, search_id):
 		post_obj.post_text = driver.find_element_by_css_selector("#vjs-desc").text
 	except:
 		title.click()
-		time.sleep(3)
+		time.sleep(5)
 		post_obj.post_text = driver.find_element_by_css_selector("#vjs-desc").text
 	try:
 		post_obj.ez_apply = post.find_element_by_css_selector(".iaP").text

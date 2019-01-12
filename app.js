@@ -23,7 +23,8 @@ app.get('/', (req, res) => {
 	let page = req.query.page - 1;
 	let p = page * rows_per_page
 	let query = 
-	`SELECT p.* FROM posts AS p
+	`SELECT p.id, p.post_id, p.title, p.company, p.location, IF(p.ez_apply = '0', "", p.ez_apply) AS ez_apply, IF(p.salary_text = '0',"", p.salary_text) AS salary_text, p.date_posted_text, p.date_scraped, p.url, p.body, p.search_id 
+	FROM posts AS p
 	INNER JOIN (
 		SELECT post_id, MAX(date_scraped) AS date_scraped
 		FROM posts
@@ -59,6 +60,20 @@ app.get('/getPost', (req, res) => {
 		else {
 			return res.json({
 				data:results,
+			})
+		}
+	});
+});
+
+app.get('/insert_search', (req, res) => {
+	let query = `INSERT INTO search_criteria (job_desc, location, active)
+	VALUES ('${req.query.desc.split("_").join(" ")}', '${req.query.loc.split("_").join(" ")}', 0);`;
+	db.query(query, (error, results) => {
+		if (error)
+			return res.send(error);
+		else {
+			return res.json({
+				data:"Success!",
 			})
 		}
 	});

@@ -22,14 +22,14 @@ class Searches extends React.Component {
 	}
 
     render() {
-        if (this.state.loaded == false) {
+        if (this.state.loaded === false) {
             return(
                 <p>Loading...</p>
             )
         }
         return (
-            <div className="row">
-                <div className="col-md-3 text-justify">
+            <div className="row sbody">
+                <div className="col-md-3 search-left text-justify">
                   <h1 className="cover-heading col-md-12 text-center">Optional Filters</h1>
                 <div className="form-check">
                     {!(this.props.filter.sfig) && <input onChange={this.props.toggleFilters.sfig} className="form-check-input" type="checkbox" value="" id="defaultCheck1" />}
@@ -55,12 +55,12 @@ class Searches extends React.Component {
                 <div className="col-md-9">
                     <h1 className="cover-heading col-md-12 text-center">Search Terms</h1>
                     <p className="lead col-md-12 text-center">Please select a search term to filter restults:</p>
-                    <p className="lead col-md-12 text-center">
+                    <div className="lead col-md-12 text-center">
                         {this.state.terms.map(term => (
-                            <div><Link to='/jobs' onClick={() => {this.props.setSearch_id(term.id)}} className="btn btn-lg btn-primary">{term.job_desc} - {term.location}</Link><br /><br /></div>
+                            <div key={term.id}><Link to='/jobs' onClick={() => {this.props.setSearch_id(term.id)}} className="btn btn-lg btn-primary">{term.job_desc} - {term.location}</Link><br /><br /></div>
                         ))}
                         <div><Link to='/jobs' onClick={() => {this.props.setSearch_id(null)}} className="btn btn-lg btn-primary">See All</Link><br /><br /></div>
-                    </p>
+                    </div>
                 </div>
             </div>
         );
