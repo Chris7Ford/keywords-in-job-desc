@@ -6,6 +6,7 @@ import Post from "./components/Post";
 import Searches from "./components/Searches";
 import Footer from "./components/Footer";
 import Homepage from "./components/Homepage";
+import Chartpage from "./components/Chartpage";
 import Suggest from "./components/Suggest";
 
 class App extends Component {
@@ -91,6 +92,7 @@ toggleFilters = {
       <Route path="/jobs" render={(props) => <Homepage filter={this.state.filter} setPost={this.setPost} keyword={this.state.keyword}/>} exact/>
       <Route path="/" render={(props) => <Searches setSearch_id={this.setSearch_id} toggleFilters={this.toggleFilters} filter={this.state.filter} keyword={this.state.keyword} />} exact/>
       <Route path="/post/:post_id" render={(props) => <Post SearchId={this.state.SearchId} postId={this.state.postId} exact />}/>
+      <Route path="/chart" render={(props) => <Chartpage SearchId={this.state.SearchId} exact />}/>
       <Route path="/suggest" component={Suggest} />
       </div>
     </BrowserRouter>
