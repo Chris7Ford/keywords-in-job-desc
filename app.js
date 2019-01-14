@@ -23,6 +23,18 @@ db.connect((error) => {
 		console.log("Connection established");
 });
 
+let append_filters = (req) => {
+	let query = "";
+	if (req.query.SearchId)
+		query += `AND p.search_id = ${req.query.SearchId} `;
+	if (req.query.sfig == 'true')
+		query += `AND p.salary_text REGEXP '[0-9]{3},*[0-9]{3}' `;
+	if (req.query.ez == 'true')
+		query += `AND p.ez_apply != '0' `;
+	if (req.query.keyword)
+		query += `AND (p.body LIKE "%${req.query.keyword}%" OR p.title LIKE "%${req.query.keyword}%") `;
+	return query;
+}
 
 app.get('/', (req, res) => {
 	const rows_per_page = 30;
@@ -38,14 +50,7 @@ app.get('/', (req, res) => {
 	) AS tp
 	ON p.post_id = tp.post_id AND tp.date_scraped = p.date_scraped 
 	WHERE 1=1 `;
-	if (req.query.SearchId)
-		query += `AND p.search_id = ${req.query.SearchId} `;
-	if (req.query.sfig == 'true')
-		query += `AND p.salary_text REGEXP '[0-9]{3},*[0-9]{3}' `;
-	if (req.query.ez == 'true')
-		query += `AND p.ez_apply != '0' `;
-	if (req.query.keyword)
-		query += `AND (p.body LIKE "%${req.query.keyword}%" OR p.title LIKE "%${req.query.keyword}%") `;
+	query += append_filters(req);
 	query += `LIMIT ${p}, ${rows_per_page};`;
 	db.query(query, (error, results) => {
 		if (error)
@@ -72,7 +77,8 @@ app.get('/getPost', (req, res) => {
 });
 
 app.get('/get_chart_numbers', (req, res) => {
-	let query = `SELECT COUNT(id) AS count FROM posts WHERE (body LIKE ("%${req.query.key}%"))`;
+	let query = `SELECT COUNT(id) AS count FROM posts AS p WHERE (body LIKE ("%${req.query.key}%")) 	`;
+	query += append_filters(req);
 	db.query(query, (error, results) => {
 		if (error)
 			return res.send(error);

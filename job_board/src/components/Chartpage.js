@@ -16,22 +16,34 @@ class ChartPage extends React.Component {
         this.create_bar_chart = this.create_bar_chart.bind(this);
         this.modify_keys = this.modify_keys.bind(this);
         this.increment_sb_count = this.increment_sb_count.bind(this);
-        this.reset_all = this.reset_all.bind(this);
-        
+        this.reset_all = this.reset_all.bind(this);   
     }
 
     get_chart_data = () => {
         let temp = []
-        this.setState({
-            data_numbers: []
-        })
         for (let i = 0; i < this.state.keys.length; i++) {
             if (typeof(this.state.keys[i]) != "undefined") {
                 temp.push(this.state.keys[i].split(" ")[0]);
             }
         }
+
+        this.setState({
+            data_numbers: [],
+            keys: temp
+        })
+
         for (let i = 0; i < temp.length; i++) {
-            fetch(`http://localhost:8889/get_chart_numbers?key=${temp[i]}`)
+            let chart_url = `http://localhost:8889/get_chart_numbers?key=${temp[i]}`
+            if (this.props.filter.SearchId)
+			    chart_url += `&SearchId=${this.props.filter.SearchId}`;
+  		    if (this.props.filter.sfig)
+	  	    	chart_url += `&sfig=true`;
+  		    if (this.props.filter.ez_apply)
+		    	  chart_url += `&ez=true`;
+		    if (this.props.keyword !== "" && this.props.filter.keywordEnabled) {
+		    	chart_url += `&keyword=${this.props.keyword}`;
+		}
+            fetch(chart_url)
 		    .then(res => res.json())
 		    .then(data => {
                 this.setState({ 
@@ -41,7 +53,6 @@ class ChartPage extends React.Component {
             });
         }
         setTimeout(function(){
-            console.log(this.state.data_numbers);
             this.create_bar_chart();
 		}.bind(this), 300);
     }
@@ -75,7 +86,6 @@ class ChartPage extends React.Component {
         this.setState({
             keys: ckeys
         })
-        console.log(this.state.keys);
     }
     
     increment_sb_count = () => {
@@ -99,6 +109,10 @@ class ChartPage extends React.Component {
     }
 
     render() { 
+        if (this.props.toggleChartReset) {
+            this.reset_all();
+            this.props.toggleChartResetfnFalse();
+        }
         return(
             <div className="container sbody">
                 <div className="row">
@@ -112,10 +126,6 @@ class ChartPage extends React.Component {
                         </div>
                     }
                     {this.state.loaded &&
-                    console.log(this.state.keys)}
-                    {this.state.loaded &&
-                    console.log(this.state.data_numbers)}
-                    {this.state.loaded &&
                         <div className="col-md-12">
                             <div className="col-md-12">
                                 <Bar data = 
@@ -124,7 +134,8 @@ class ChartPage extends React.Component {
                                         labels: this.state.keys,
                                         datasets: [{
                                             label: "Number of posts with containing word",
-                                            data: this.state.data_numbers
+                                            data: this.state.data_numbers,
+                                            backgroundColor: "Navy"
                                         }]
                                     }
                                 }

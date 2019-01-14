@@ -13,16 +13,16 @@ class Header extends React.Component {
   	  </button>
   	  <div className="collapse navbar-collapse" id="navbarNav">
     	    <ul className="navbar-nav">
-      	      <li className="nav-item">
+      	      <li onClick={this.props.toggleChartResetfnTrue} className="nav-item">
                 <Link className="nav-link" to="/">Filters</Link>
               </li>
-              <li className="nav-item">
+              <li onClick={this.props.toggleChartResetfnTrue} className="nav-item">
                 <Link className="nav-link" to="/jobs">Jobs</Link>
               </li>
-      	      <li className="nav-item">
+      	      <li onClick={this.props.toggleChartResetfnTrue} className="nav-item">
                 <Link className="nav-link" to="/chart">Keyword Breakdown</Link>
               </li>
-              <li className="nav-item">
+              <li onClick={this.props.toggleChartResetfnTrue} className="nav-item">
                 <Link className="nav-link" to="/suggest">Suggest a Search Term</Link>
               </li>
             </ul>

@@ -22,7 +22,8 @@ class App extends Component {
         keywordEnabled: false
       },
       keyword: "",
-      postId: null
+      postId: null,
+      toggleChartReset: false
     }
     this.setPost = this.setPost.bind(this);
     this.toggleFilters.sfig = this.toggleFilters.sfig.bind(this);
@@ -30,13 +31,26 @@ class App extends Component {
     this.setSearch_id = this.setSearch_id.bind(this);
     this.toggleFilters.updateKeyword = this.toggleFilters.updateKeyword.bind(this);
     this.toggleFilters.toggleKeywordEnabled = this.toggleFilters.toggleKeywordEnabled.bind(this);
-    
+    this.toggleChartResetfnTrue = this.toggleChartResetfnTrue.bind(this);
+    this.toggleChartResetfnFalse = this.toggleChartResetfnFalse.bind(this);
   }
 
   setPost = (id) => {
 		this.setState({
 			postId: id
 		})
+  }
+
+  toggleChartResetfnTrue = () => {
+    this.setState({
+      toggleChartReset: true
+    })
+  }
+
+  toggleChartResetfnFalse = () => {
+    this.setState({
+      toggleChartReset: false
+    })
   }
 
   setSearch_id = (id) => {
@@ -87,12 +101,12 @@ toggleFilters = {
     return (
     <div>
 	  <BrowserRouter>
-	  <div>
-    <Header />
+	    <div>
+      <Header toggleChartResetfnTrue={this.toggleChartResetfnTrue} />
       <Route path="/jobs" render={(props) => <Homepage filter={this.state.filter} setPost={this.setPost} keyword={this.state.keyword}/>} exact/>
       <Route path="/" render={(props) => <Searches setSearch_id={this.setSearch_id} toggleFilters={this.toggleFilters} filter={this.state.filter} keyword={this.state.keyword} />} exact/>
       <Route path="/post/:post_id" render={(props) => <Post SearchId={this.state.SearchId} postId={this.state.postId} exact />}/>
-      <Route path="/chart" render={(props) => <Chartpage SearchId={this.state.SearchId} exact />}/>
+      <Route path="/chart" render={(props) => <Chartpage filter={this.state.filter} keyword={this.state.keyword} toggleChartResetfnFalse={this.toggleChartResetfnFalse} toggleChartReset={this.state.toggleChartReset} exact />}/>
       <Route path="/suggest" component={Suggest} />
       </div>
     </BrowserRouter>
