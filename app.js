@@ -77,7 +77,14 @@ app.get('/getPost', (req, res) => {
 });
 
 app.get('/get_chart_numbers', (req, res) => {
-	let query = `SELECT COUNT(id) AS count FROM posts AS p WHERE (body LIKE ("%${req.query.key}%")) 	`;
+	let query = `SELECT COUNT(p.id) AS count FROM posts AS p 
+	INNER JOIN (
+		SELECT post_id, MAX(date_scraped) AS date_scraped
+		FROM posts
+		GROUP BY post_id
+	) AS tp
+	ON p.post_id = tp.post_id AND tp.date_scraped = p.date_scraped 
+	WHERE (p.body LIKE ("%${req.query.key}%") OR p.title LIKE ("%${req.query.key}%")) 	`;
 	query += append_filters(req);
 	db.query(query, (error, results) => {
 		if (error)
